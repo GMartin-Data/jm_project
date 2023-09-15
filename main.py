@@ -1,3 +1,4 @@
+import json
 import os
 
 from dotenv import load_dotenv
@@ -26,7 +27,11 @@ def create_client() -> httpx.Client:
     return c
 
 
-def get_adzuna_cats():
+def get_adzuna_cats() -> None:
+    """
+    Display categories from Adzuna.
+    Save it, in data folder in a .json file.
+    """
     url = f'{ADZUNA_URL}/jobs/fr/categories'
     cli = create_client()
     resp = cli.get(
@@ -36,8 +41,13 @@ def get_adzuna_cats():
             'app_key': ADZUNA_KEY
         }
     )
-    print(resp.text)
-
+    json_resp = resp.json()
+    print(json_resp)
+    # print(f'[green]{json_resp}[/green]')
+    with open('data/adzuna_cats.json', 'w') as resp_file:
+        json.dump(json_resp, resp_file, indent=4)
+    print(f'[white]{resp.headers}[/white]')
+    
 
 if __name__ == '__main__':
     configure()
