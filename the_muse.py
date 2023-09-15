@@ -61,7 +61,10 @@ def get_muse_jobs_page(client: httpx.Client,
     resp.raise_for_status()
     json_resp = resp.json()
     
-    print(json_resp)
+    print(json_resp['page_count'])
+    print(f'[red]{resp.headers}[/red]')
+    
+    return json_resp
     
 
 if __name__ == '__main__':
