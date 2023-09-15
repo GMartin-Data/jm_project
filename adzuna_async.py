@@ -30,39 +30,47 @@ def create_client() -> httpx.AsyncClient:
     return c
 
 
-def get_adzuna_ads(nb_res: int = 50,
-                   cat_tag: str = 'it-jobs') -> None:
+async def get_adzuna_ads_page(client: httpx.AsyncClient,
+                              url: str,
+                              cat_tag: str) -> json:
     """
-    Display job ads from Adzuna API.
-    Save it, in data folder in a .json file.
-    
-    Params:
-        nb_res (int)    : the number of results displayed (max. 50)
-        cat_tag (str)   : the API category tag
+    Get the 50 results of one page from Azuna API.
     """
-    url = f'{ADZUNA_URL}/jobs/fr/search/1'
-    cli = create_client()
-    resp = cli.get(
+    resp = await client.get(
         url,
         params = {
             'app_id': ADZUNA_ID,
             'app_key': ADZUNA_KEY,
-            'results_per_page': nb_res,
+            'results_per_page': 50,
             'category': cat_tag 
         }
     )
+    resp.raise_for_status()
+    return resp.json()['results']
     
-    json_resp = resp.json()
-    print(json_resp)
-    
-    ts = get_timestamp()
-    filepath = f'data/adzuna_ads_{cat_tag}_{nb_res}_{ts}.json'
-    with open(filepath, 'w') as resp_file:
-        json.dump(json_resp, resp_file, indent=4)
+
+async def get_adzuna_ads(cat_tag: str = 'it-jobs',
+                         nb_pages: int = 15) -> None:
+    """
+    Get all job ads from Adzuna API.
+    """
+    cli = create_client()
+    async with cli:
+        tasks = []
+        errors = 0
         
-    print(f'[white]{resp.headers}[/white]')
-    
-    return json_resp
+        for page in range(1, nb_pages + 1):
+            url = f'{ADZUNA_URL}/jobs/fr/search/{page}'
+            try:
+                tasks.append(get_adzuna_ads_page(cli, url, cat_tag))
+            except BaseException as e:
+                print(f'[red]{type(e)}: Exception {e} occured![/red] on page {page}')
+                errors += 1
+        print(f'[green]{nb_pages - errors} pages succesfully processed.[/green]')
+        
+        results = await asyncio.gather(*tasks)
+        
+        print(type(results))
 
 
 def get_adzuna_cats() -> None:
@@ -94,5 +102,4 @@ def get_adzuna_cats() -> None:
 
 if __name__ == '__main__':
     configure()
-    ads = get_adzuna_ads()
-    print(f'[yellow]{len(ads["results"])}[/yellow]')
+    asyncio.run(get_adzuna_ads())
