@@ -19,7 +19,7 @@ def configure() -> None:
     
     
 def create_client() -> httpx.AsyncClient:
-    """Create and configure a httpx Client for requesting"""
+    """Create and configure a httpx AsyncClient for requesting"""
     c = httpx.AsyncClient()
     c.headers.update({
         'Content-Type': 'application/json',
