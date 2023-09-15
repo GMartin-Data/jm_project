@@ -53,15 +53,17 @@ def get_adzuna_cats() -> None:
         
     print(f'[white]{resp.headers}[/white]')
     
+    return json_resp
     
-def get_adzuna_ads(nb_res: int = 100,
+    
+def get_adzuna_ads(nb_res: int = 50,
                    cat_tag: str = 'it-jobs') -> None:
     """
     Display job ads from Adzuna API.
     Save it, in data folder in a .json file.
     
     Params:
-        nb_res (int)    : the number of results displayed
+        nb_res (int)    : the number of results displayed (max. 50)
         cat_tag (str)   : the API category tag
     """
     url = f'{ADZUNA_URL}/jobs/fr/search/1'
@@ -86,7 +88,10 @@ def get_adzuna_ads(nb_res: int = 100,
         
     print(f'[white]{resp.headers}[/white]')
     
+    return json_resp
+    
 
 if __name__ == '__main__':
     configure()
-    get_adzuna_ads() 
+    ads = get_adzuna_ads()
+    print(f'[yellow]{len(ads["results"])}[/yellow]')
