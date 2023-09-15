@@ -1,3 +1,4 @@
+import asyncio
 import json
 import os
 
@@ -17,9 +18,9 @@ def configure() -> None:
     ADZUNA_KEY = os.getenv('adzuna_key')
     
     
-def create_client() -> httpx.Client:
+def create_client() -> httpx.AsyncClient:
     """Create and configure a httpx Client for requesting"""
-    c = httpx.Client()
+    c = httpx.AsyncClient()
     c.headers.update({
         'Content-Type': 'application/json',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)\
