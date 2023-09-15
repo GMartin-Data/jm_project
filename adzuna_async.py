@@ -50,7 +50,7 @@ async def get_adzuna_ads_page(client: httpx.AsyncClient,
     
 
 async def get_adzuna_ads(cat_tag: str = 'it-jobs',
-                         nb_pages: int = 15) -> None:
+                         nb_pages: int = 25) -> None:
     """
     Get all job ads from Adzuna API.
     """
