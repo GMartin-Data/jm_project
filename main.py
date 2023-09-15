@@ -29,33 +29,6 @@ def create_client() -> httpx.Client:
     return c
 
 
-def get_adzuna_cats() -> None:
-    """
-    Display categories from Adzuna.
-    Save it, in data folder in a .json file.
-    """
-    url = f'{ADZUNA_URL}/jobs/fr/categories'
-    cli = create_client()
-    resp = cli.get(
-        url,
-        params = {
-            'app_id': ADZUNA_ID,
-            'app_key': ADZUNA_KEY
-        }
-    )
-    
-    json_resp = resp.json()
-    print(json_resp)
-    
-    ts = get_timestamp()
-    with open(f'data/adzuna_cats_{ts}.json', 'w') as resp_file:
-        json.dump(json_resp, resp_file, indent=4)
-        
-    print(f'[white]{resp.headers}[/white]')
-    
-    return json_resp
-    
-    
 def get_adzuna_ads(nb_res: int = 50,
                    cat_tag: str = 'it-jobs') -> None:
     """
@@ -84,6 +57,33 @@ def get_adzuna_ads(nb_res: int = 50,
     ts = get_timestamp()
     filepath = f'data/adzuna_ads_{cat_tag}_{nb_res}_{ts}.json'
     with open(filepath, 'w') as resp_file:
+        json.dump(json_resp, resp_file, indent=4)
+        
+    print(f'[white]{resp.headers}[/white]')
+    
+    return json_resp
+
+
+def get_adzuna_cats() -> None:
+    """
+    Display categories from Adzuna.
+    Save it, in data folder in a .json file.
+    """
+    url = f'{ADZUNA_URL}/jobs/fr/categories'
+    cli = create_client()
+    resp = cli.get(
+        url,
+        params = {
+            'app_id': ADZUNA_ID,
+            'app_key': ADZUNA_KEY
+        }
+    )
+    
+    json_resp = resp.json()
+    print(json_resp)
+    
+    ts = get_timestamp()
+    with open(f'data/adzuna_cats_{ts}.json', 'w') as resp_file:
         json.dump(json_resp, resp_file, indent=4)
         
     print(f'[white]{resp.headers}[/white]')
