@@ -104,7 +104,7 @@ def get_adzuna_cats() -> dict:
     with open(f'data/adzuna_cats_{ts}.json', 'w') as resp_file:
         json.dump(json_resp, resp_file, indent=4)
         
-    print(f'[white]{resp.headers}[/white]')
+    print(f'[yellow]{resp.headers}[/yellow]')
     
     return json_resp
     
