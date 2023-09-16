@@ -84,8 +84,9 @@ def get_adzuna_ads(cat_tag: str = 'it-jobs',
 
 def get_adzuna_cats() -> dict:
     """
-    Display categories from Adzuna.
+    Get categories from Adzuna.
     Save it, in data folder in a .json file.
+    Return a corresponding dict
     """
     url = f'{ADZUNA_URL}/jobs/fr/categories'
     cli = create_client()
@@ -107,7 +108,7 @@ def get_adzuna_cats() -> dict:
     print(f'[yellow]{resp.headers}[/yellow]')
     
     return json_resp
-    
+
 
 if __name__ == '__main__':
     configure()  
