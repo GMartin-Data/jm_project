@@ -99,7 +99,6 @@ def get_adzuna_cats() -> dict:
     )
     
     json_resp = resp.json()
-    # print(json_resp)
     
     ts = get_timestamp()
     with open(f'data/adzuna_cats_{ts}.json', 'w') as resp_file:
@@ -110,10 +109,39 @@ def get_adzuna_cats() -> dict:
     return json_resp
     
 
+def get_adzuna_locs(cat_tag: str = 'it-jobs') -> dict:
+    """
+    Get salary data for locations in France,
+    corresponding to the default cat_tag 'it-jobs'.
+    Save it, in data folder in a json file.
+    Return a corresponding dict
+    """
+    url = f'{ADZUNA_URL}/jobs/fr/geodata'
+    cli = create_client()
+    resp = cli.get(
+        url,
+        params = {
+            'app_id': ADZUNA_ID,
+            'app_key': ADZUNA_KEY,
+            'category': cat_tag
+        }
+    )
+    resp.raise_for_status()
+    json_resp = resp.json()
+    
+    ts = get_timestamp()
+    with open(f'data/adzuna_locs_{cat_tag}_{ts}.json', 'w') as resp_file:
+        json.dump(json_resp, resp_file, indent=4)
+        
+    # print(f'[yellow]{resp.headers}[/yellow]')
+    
+    return json_resp
+
+
 if __name__ == '__main__':
     configure()  
     # # Test get_adzuna_ads
     # get_adzuna_ads()
-    cats = get_adzuna_cats()
-    print(cats)
-    print(type(cats))
+    locs = get_adzuna_locs()
+    print(locs)
+    print(type(locs))
