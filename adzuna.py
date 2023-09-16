@@ -99,16 +99,16 @@ def get_adzuna_cats() -> dict:
     )
     
     json_resp = resp.json()
-    print(json_resp)
+    # print(json_resp)
     
     ts = get_timestamp()
     with open(f'data/adzuna_cats_{ts}.json', 'w') as resp_file:
         json.dump(json_resp, resp_file, indent=4)
         
-    print(f'[yellow]{resp.headers}[/yellow]')
+    # print(f'[yellow]{resp.headers}[/yellow]')
     
     return json_resp
-
+    
 
 if __name__ == '__main__':
     configure()  
