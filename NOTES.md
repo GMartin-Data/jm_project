@@ -16,6 +16,9 @@ Default API access limits: [**Source: terms of service**](https://developer.adzu
 
 👉 <font color='green'>**THIS SEEMS AWFULLY LOW! And hence will need to design some sort of scheduler in order not to be bottlenecked.**</font>
 
+# **Adzuna Results per Page**
+👉 <font color='green'>**The results displayed by page are limited to 50.**</font>
+
 # **TheMuse API Rate Limit**
 The limit seems a little higher, especially if **the app is registered**.
 This will allow up to **3 600 requests by hour**. [**Source: Api-V2 Doc**](https://www.themuse.com/developers/api/v2)
@@ -25,6 +28,9 @@ This will allow up to **3 600 requests by hour**. [**Source: Api-V2 Doc**](https
 - `X-RateLimit-Remaining`: How many requests you can still make at this time
 - `X-RateLimit-Limit`: The total number of requests you're allowed to make
 - `X-RateLimit-Reset`: Seconds remaining before the rate limit resets
+
+# **The Muse Results per Page**
+👉 <font color='green'>**The results displayed by page are limited to 50.**</font>
 
 # **TheMuse API Endpoints**
 ## **Jobs: `https://www.themuse.com/api/public/jobs`**
