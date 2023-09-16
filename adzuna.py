@@ -82,7 +82,7 @@ def get_adzuna_ads(cat_tag: str = 'it-jobs',
     return adzuna_jobs
 
 
-def get_adzuna_cats() -> None:
+def get_adzuna_cats() -> dict:
     """
     Display categories from Adzuna.
     Save it, in data folder in a .json file.
@@ -111,4 +111,8 @@ def get_adzuna_cats() -> None:
 
 if __name__ == '__main__':
     configure()  
-    get_adzuna_ads()
+    # # Test get_adzuna_ads
+    # get_adzuna_ads()
+    cats = get_adzuna_cats()
+    print(cats)
+    print(type(cats))
