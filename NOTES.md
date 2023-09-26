@@ -19,6 +19,14 @@ Default API access limits: [**Source: terms of service**](https://developer.adzu
 # **Adzuna Results per Page**
 👉 <font color='green'>**The results displayed by page are limited to 50.**</font>
 
+# **Adzuna Job Advertisements (`redirect_url)`**
+Each result is associated to a job advertisement web page. (from *HelloWork*):
+
+[**One example**](https://www.hellowork.com/fr-fr/emplois/28616266.html?utm_campaign=companyboost+-+spie&utm_source=adzuna&utm_medium=Metamoteurs-cpc&hcid=c4d80a82-2ee4-4887-be1f-c7e57425e323)
+
+⚠️ <font color='red'>**Scraping these pages should be considered in order to find additional information to API's ones.**</font>
+
+
 # **TheMuse API Rate Limit**
 The limit seems a little higher, especially if **the app is registered**.
 This will allow up to **3 600 requests by hour**. [**Source: Api-V2 Doc**](https://www.themuse.com/developers/api/v2)
@@ -66,3 +74,10 @@ countries (seems not)**</font>
 Gets an individual job, specifying the id of the corresponding ad (obviously returned by the previous endpoint)
 
 ⚠️ <font color='red'>**This endpoint's output and the subset from the previous one should be compared to tell if they're identical or not.**</font>
+
+# **The Muse Job Ads (`landing_page`)**
+Each result is associated to a job advertisement web page.
+- [**One example in French**](https://www.themuse.com/jobs/siemens/apprenti-marketing-digital-crm-hf-3d53e2)
+- [**One example in English**](https://www.themuse.com/jobs/siemens/software-developer-circuit-simulation-remote-0b90e0)
+
+⚠️ <font color='red'>**Scraping these pages should be considered in order to find additional information to API's ones.**</font>
