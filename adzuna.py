@@ -133,8 +133,10 @@ def get_adzuna_locs(cat_tag: str = 'it-jobs') -> dict:
     json_resp = resp.json()
     
     ts = get_timestamp()
-    with open(f'data/adzuna_locs_{cat_tag}_{ts}.json', 'w') as resp_file:
-        json.dump(json_resp, resp_file, indent=4)
+    with open(f'data/adzuna_locs_{cat_tag}_{ts}.json',
+              'w', encoding='utf-8') as resp_file:
+        # Last parameter `ensure_ascii` to force display of non-ascii characters
+        json.dump(json_resp, resp_file, indent=4, ensure_ascii=False)
         
     # print(f'[yellow]{resp.headers}[/yellow]')
     
@@ -147,10 +149,10 @@ if __name__ == '__main__':
     # # Test get_adzuna_ads
     # get_adzuna_ads()
     
-    # Test get_adzuna_cats
-    get_adzuna_cats()
+    # # Test get_adzuna_cats
+    # get_adzuna_cats()
     
-    # # Test get_adzuna_locs
-    # locs = get_adzuna_locs()
-    # print(locs)
-    # print(type(locs))
+    # Test get_adzuna_locs
+    locs = get_adzuna_locs()
+    print(locs)
+    print(type(locs))
