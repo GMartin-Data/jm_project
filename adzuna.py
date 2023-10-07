@@ -75,8 +75,9 @@ def get_adzuna_ads(cat_tag: str = 'it-jobs',
     ts = get_timestamp()
     adzuna_jobs['created_at'] = ts
     dump_path = f'data/adzuna_jobs_{ts}.json'
-    with open(dump_path, 'w') as dump_file:
-        json.dump(adzuna_jobs, dump_file, indent=4)
+    with open(dump_path, 'w', encoding='utf-8') as dump_file:
+        # Last parameter `ensure_ascii` to force display of non-ascii characters
+        json.dump(adzuna_jobs, dump_file, indent=4, ensure_ascii=False) 
     print(f'\t[cyan]{dump_path} dumped![/cyan]')
     
     return adzuna_jobs
@@ -101,8 +102,10 @@ def get_adzuna_cats() -> dict:
     json_resp = resp.json()
     
     ts = get_timestamp()
-    with open(f'data/adzuna_cats_{ts}.json', 'w') as resp_file:
-        json.dump(json_resp, resp_file, indent=4)
+    with open(f'data/adzuna_cats_{ts}.json',
+              'w', encoding='utf-8') as resp_file:
+        # Last parameter `ensure_ascii` to force display of non-ascii characters
+        json.dump(json_resp, resp_file, indent=4, ensure_ascii=False)
         
     # print(f'[yellow]{resp.headers}[/yellow]')
     
@@ -140,8 +143,14 @@ def get_adzuna_locs(cat_tag: str = 'it-jobs') -> dict:
 
 if __name__ == '__main__':
     configure()  
+    
     # # Test get_adzuna_ads
     # get_adzuna_ads()
-    locs = get_adzuna_locs()
-    print(locs)
-    print(type(locs))
+    
+    # Test get_adzuna_cats
+    get_adzuna_cats()
+    
+    # # Test get_adzuna_locs
+    # locs = get_adzuna_locs()
+    # print(locs)
+    # print(type(locs))
