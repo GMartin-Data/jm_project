@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 import httpx
 from rich import print
 
-from utils import get_timestamp
+from utils import get_timestamp, timer
 
 
 def configure() -> None:
@@ -29,6 +29,7 @@ def create_client() -> httpx.Client:
     return c
 
 
+@timer
 def get_adzuna_ads_page(client: httpx.Client,
                         page: int,
                         cat_tag: str = 'it-jobs'):  # Update output annotation
@@ -50,6 +51,7 @@ def get_adzuna_ads_page(client: httpx.Client,
     return resp.json()['results']
     
 
+@timer
 def get_adzuna_ads(cat_tag: str = 'it-jobs',
                    nb_pages: int = 25) -> None:
     """
@@ -83,6 +85,7 @@ def get_adzuna_ads(cat_tag: str = 'it-jobs',
     return adzuna_jobs
 
 
+@timer
 def get_adzuna_cats() -> dict:
     """
     Get categories from Adzuna.
@@ -112,6 +115,7 @@ def get_adzuna_cats() -> dict:
     return json_resp
     
 
+@timer
 def get_adzuna_locs(cat_tag: str = 'it-jobs') -> dict:
     """
     Get salary data for locations in France,
