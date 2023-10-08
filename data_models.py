@@ -54,7 +54,7 @@ def filter_adzuna_job(job: dict) -> dict:
         'location': job.get('location', {}).get('display_name'),
         'area': job.get('location', {}).get('area'),
         
-        'id': str(job.get('id')),
+        'id': str(job.get('id', '')),  # ❓isn't `int` better? / NA managing
         'adref': job.get('adref'),
         'redirect_url': job.get('redirect_url'),
         
