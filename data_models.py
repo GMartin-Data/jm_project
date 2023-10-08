@@ -14,7 +14,7 @@ class AdzunaJob(BaseModel):
     description: str
     label: str
     tag: str
-    company: str
+    company: Optional[str]
     
     latitude: Optional[float]
     longitude: Optional[float]
@@ -56,7 +56,7 @@ def model_adzuna_job_data(jobs: List[dict]) -> List[AdzunaJob]:
     
     
 if __name__ == '__main__':
-    with open('data/adzuna_jobs_2023-09-16-10:31:39.json', 'r') as load_file:
+    with open('data/adzuna_jobs_2023-10-07-18:56:14.json', 'r') as load_file:
         jobs = json.load(load_file)['results']    
     
     adzuna_jobs = model_adzuna_job_data(jobs)
