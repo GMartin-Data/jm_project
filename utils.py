@@ -1,13 +1,44 @@
 """
 This module sums up different utilities used in the project,
 helping to factorize the code.
+This includes:
+- client configuration and creation with httpx,
+- timestamp creation for file logging/naming,
+- timer to benchmark code.
 """
 
 
 from datetime import datetime
 import functools
+import os
 import time
 
+from dotenv import load_dotenv
+import httpx
+
+
+def configure() -> None:
+    """Set working environment"""
+    load_dotenv()
+    ADZUNA_URL = os.getenv('adzuna_url')
+    ADZUNA_ID = os.getenv('adzuna_id')
+    ADZUNA_KEY = os.getenv('adzuna_key')
+    MUSE_KEY = os.getenv('muse_key')
+    MUSE_URL = os.getenv('muse_url')
+    return ADZUNA_URL, ADZUNA_ID, ADZUNA_KEY, MUSE_KEY, MUSE_URL
+    
+
+def create_client() -> httpx.Client:
+    """Create and configure a httpx Client for requesting"""
+    c = httpx.Client()
+    c.headers.update({
+        'Content-Type': 'application/json',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)\
+            AppleWebKit/537.36 (KHTML, like Gecko)\
+                Chrome/116.0.0.0 Safari/537.36',
+    })
+    return c
+    
 
 def get_timestamp():
     """Help for file horodating"""

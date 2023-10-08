@@ -8,34 +8,11 @@ Endpoints already implemented are those corresponding to
 
 
 import json
-import os
 
-from dotenv import load_dotenv
 import httpx
 from rich import print
 
-from utils import get_timestamp, timer
-
-
-def configure() -> None:
-    """Set working environment"""
-    load_dotenv()
-    global ADZUNA_URL, ADZUNA_ID, ADZUNA_KEY
-    ADZUNA_URL = os.getenv('adzuna_url')
-    ADZUNA_ID = os.getenv('adzuna_id')
-    ADZUNA_KEY = os.getenv('adzuna_key')
-    
-    
-def create_client() -> httpx.Client:
-    """Create and configure a httpx Client for requesting"""
-    c = httpx.Client()
-    c.headers.update({
-        'Content-Type': 'application/json',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)\
-            AppleWebKit/537.36 (KHTML, like Gecko)\
-                Chrome/116.0.0.0 Safari/537.36',
-    })
-    return c
+from utils import configure, create_client, get_timestamp, timer
 
 
 @timer
@@ -157,15 +134,15 @@ def get_adzuna_locs(cat_tag: str = 'it-jobs') -> dict:
 
 
 if __name__ == '__main__':
-    configure()  
+    ADZUNA_URL, ADZUNA_ID, ADZUNA_KEY, _, _ = configure()  
     
-    # # Test get_adzuna_ads
-    # get_adzuna_ads()
+    # Test get_adzuna_ads
+    get_adzuna_ads()
     
     # # Test get_adzuna_cats
     # get_adzuna_cats()
     
-    # Test get_adzuna_locs
-    locs = get_adzuna_locs()
-    print(locs)
-    print(type(locs))
+    # # Test get_adzuna_locs
+    # locs = get_adzuna_locs()
+    # print(locs)
+    # print(type(locs))

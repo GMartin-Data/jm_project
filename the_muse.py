@@ -1,12 +1,10 @@
 import json
-import os
 from typing import List, Optional
 
-from dotenv import load_dotenv
 import httpx
 from rich import print
 
-from utils import get_timestamp, timer
+from utils import configure, create_client, get_timestamp, timer
 
 
 # (CONFIG) CONSTANTS
@@ -18,24 +16,6 @@ CHOSEN_CATS = ['Computer and IT', 'IT',
 with open('config_data/muse_towns_fr.json', 'r',
           encoding='utf-8') as read_file:
     MUSE_TOWNS_FR = json.load(read_file)
-
-
-def configure() -> None:
-    """Set working environment"""
-    load_dotenv()
-    global MUSE_KEY, MUSE_URL
-    MUSE_KEY = os.getenv('muse_key')
-    MUSE_URL = os.getenv('muse_url')
-    
-
-def create_client() -> httpx.Client:
-    """Create a httpx Client, with configured headers"""
-    c = httpx.Client()
-    c.headers.update({
-        'Content-Type': 'application/json',
-        'User-Agent': os.getenv('user_agent')
-        })
-    return c
 
 
 def get_muse_jobs_page(client: httpx.Client,
@@ -114,9 +94,15 @@ def get_muse_jobs(category: List[str],
     
 
 if __name__ == '__main__':
-    configure()
-    c = create_client()
-    # jobs = get_muse_jobs_page(c, 1, CHOSEN_CATS, location=MUSE_TOWNS_FR)    
+    # Setup
+    _, _, _, MUSE_KEY, MUSE_URL = configure()
     
+    # # Testing get_muse_jods_page
+    # c = create_client()
+    # jobs = get_muse_jobs_page(c, 1, CHOSEN_CATS, location=MUSE_TOWNS_FR)
+    # print(jobs)
+    
+    # Testing get_muse_jobs
     get_muse_jobs(CHOSEN_CATS, location=MUSE_TOWNS_FR)
+    
     print("SUCCESS!")
