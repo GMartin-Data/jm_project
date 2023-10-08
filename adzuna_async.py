@@ -1,3 +1,15 @@
+"""
+⚠️ 'FROZEN' MODULE
+This module contains logic to extract data from The Muse API.
+It was at first envisioned with implementing asynchronous requests.
+As the Adzuna's API rate limiter is rather high, 
+this module has been kept aside for the moment.
+
+It should even at first get it's code factorized,
+especially moving to utils a `create_async_client()` function.
+"""
+
+
 import asyncio
 import json
 import os
