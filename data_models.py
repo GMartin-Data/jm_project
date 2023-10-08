@@ -1,3 +1,9 @@
+"""
+This module contains logic to transform extracted data,
+to specially designed classes for Adzuna and TheMuse APIs.
+"""
+
+
 import json
 from typing import List, Optional
 
