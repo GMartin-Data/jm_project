@@ -1,3 +1,9 @@
+"""
+This module contains logic to extract data from The Muse API.
+Endpoints already implemented are those corresponding to job ads.
+"""
+
+
 import json
 from typing import List, Optional
 
@@ -18,6 +24,7 @@ with open('config_data/muse_towns_fr.json', 'r',
     MUSE_TOWNS_FR = json.load(read_file)
 
 
+@timer
 def get_muse_jobs_page(client: httpx.Client,
                        page: int,
                        category: List[str],
