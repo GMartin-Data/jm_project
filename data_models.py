@@ -5,6 +5,7 @@ from pydantic import BaseModel
 from rich import print
 
 
+########## ADZUNA ##########
 class AdzunaJob(BaseModel):
     """
     Output class for Adzuna jobs.
@@ -71,7 +72,31 @@ def model_adzuna_job_data(jobs: List[dict]) -> List[AdzunaJob]:
     """Map filter_adzuna_job to the list of dict inputs."""
     return [AdzunaJob(**filter_adzuna_job(job)) for job in jobs] 
     
+
+########## THE MUSE ##########
+class TheMuseJob(BaseModel):
+    """
+    Output class for The Muse jobs.
+    Based on the job_market_variables sheet (tiny link below).
+    https://tinyurl.com/job-vars
+    (order of attributes could nevertheless be rearranged.)
+    """
+    name: str
+    publication_date: str  # 👉 Switch to datetime?
+
+    locations: List[str]
     
+    id: int | str  # ⚠️ `Union` for retro-compatibility
+    landing_page: str
+    
+    company: str  # There are additional infos commented below
+    # company_id: int | str
+    # company_short_name: str
+    contents: str  # 😱 Contains HTML tags, to process rn or later
+    type: str
+    level: str  # Choice to make between `name` and `short_name`
+    
+ 
 if __name__ == '__main__':
     # Test model_adzuna_job_data
     with open('data/adzuna_jobs_2023-10-07-18:56:14.json', 'r') as load_file:
