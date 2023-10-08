@@ -1,3 +1,9 @@
+"""
+This module sums up different utilities used in the project,
+helping to factorize the code.
+"""
+
+
 from datetime import datetime
 import functools
 import time
