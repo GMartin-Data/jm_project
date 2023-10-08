@@ -95,16 +95,49 @@ class TheMuseJob(BaseModel):
     contents: str  # 😱 Contains HTML tags, to process rn or later
     type: str
     level: str  # Choice to make between `name` and `short_name`
-    
+ 
+ 
+def filter_the_muse_job(job: dict) -> dict:
+    """Filter a dict inputs to fit into an TheMuseJob's instance attributes"""
+    return  {
+        'name': job.get('name'),
+        'publication_date': job.get('publication_date'),
+        
+        'locations': [location.get('name')
+                      for location in job.get('locations')],  # ❓ NA managing
+        
+        'id': str(job.get('id', '')),  # ❓isn't `int` better? / NA managing
+        'landing_page': job.get('refs', {}).get('landing_page'),
+        
+        'company': job.get('company', {}).get('name'),
+        'contents': job.get('contents'),
+        'type': job.get('type'),
+        'level': job.get('levels')[0].get('short_name') if job.get('levels') else None,       
+    }
+
+
+def model_the_muse_job_data(jobs: List[dict]) -> List[TheMuseJob]:
+    """Map filter_the_muse_job to the list of dict inputs."""
+    return [TheMuseJob(**filter_the_muse_job(job)) for job in jobs]
+
  
 if __name__ == '__main__':
-    # Test model_adzuna_job_data
-    with open('data/adzuna_jobs_2023-10-07-18:56:14.json', 'r') as load_file:
+    # # Test model_adzuna_job_data
+    # with open('data/adzuna_jobs_2023-10-07-18:56:14.json', 'r') as load_file:
+    #     jobs = json.load(load_file)['results']    
+    
+    # adzuna_jobs = model_adzuna_job_data(jobs)
+    
+    # for idx, job in enumerate(adzuna_jobs[:10]):
+    #     print(f'[white]OFFER {idx}[/white]', '\t', job)
+        
+    # Test model_the_muse_job_data
+    with open('data/the_muse_jobs_2023-10-08-12:52:59.json', 'r') as load_file:
         jobs = json.load(load_file)['results']    
     
-    adzuna_jobs = model_adzuna_job_data(jobs)
+    the_muse_jobs = model_the_muse_job_data(jobs)
     
-    for idx, job in enumerate(adzuna_jobs[:10]):
+    for idx, job in enumerate(the_muse_jobs[:10]):
         print(f'[white]OFFER {idx}[/white]', '\t', job)
         
     print('SUCCESS!')
