@@ -1,5 +1,5 @@
 """
-This module contains logic to extract data data from Adzuna API.
+This module contains logic to extract data from Adzuna API.
 Endpoints already implemented are those corresponding to
 - ads
 - categories,
