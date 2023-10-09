@@ -8,6 +8,7 @@ Endpoints already implemented are those corresponding to
 
 
 import json
+import time
 
 import httpx
 from rich import print
@@ -65,6 +66,49 @@ def get_adzuna_ads(cat_tag: str = 'it-jobs',
     dump_path = f'data/adzuna_jobs_{ts}.json'
     with open(dump_path, 'w', encoding='utf-8') as dump_file:
         # Last parameter `ensure_ascii` to force display of non-ascii characters
+        json.dump(adzuna_jobs, dump_file, indent=4, ensure_ascii=False) 
+    print(f'\t[cyan]{dump_path} dumped![/cyan]')
+    
+    return adzuna_jobs
+
+
+@timer
+def get_daily_adzuna_ads(cat_tag: str = 'it-jobs') -> 'JSON':
+    """
+    Get all job ads from Adzuna API, on a daily basis:
+    - the daily rate being 250
+    - the number of ads by page being 20
+    This corresponds, to the max, to 50 000 ads.    
+    """
+    cli = create_client()
+    adzuna_jobs = {}
+    adzuna_jobs['results'] = []
+    errors = 0
+    n_page = 1
+    
+    for step in range(1, 11):
+        print(f"\t[white]Step {step}[/white]")
+        for page in range(n_page, n_page + 25):
+            # REQUESTING
+            try:
+                adzuna_jobs['results'].extend(get_adzuna_ads_page(cli, page, cat_tag))
+                print(f'Page {page} PROCESSED')
+            except BaseException as e:
+                print(f'[red]{type(e)}: Exception {e} occured![/red] on page {page}')
+                errors += 1   
+        # GOING OUT FROM STEP
+        n_page += 25    # Updating number of first page
+        time.sleep(61)  # Going around minute rate limit
+    
+    # SUM-UP
+    print(f'\t[yellow]{n_page -1 - errors} pages succesfully processed.[/yellow]')
+    
+    # DUMPING RESULTS
+    ts = get_timestamp()
+    adzuna_jobs['created_at'] = ts
+    dump_path = f'data/adzuna_jobs_{ts}.json'
+    with open(dump_path, 'w', encoding='utf-8') as dump_file:
+        # `ensure_ascii=False` to force display of non-ascii characters in JSON
         json.dump(adzuna_jobs, dump_file, indent=4, ensure_ascii=False) 
     print(f'\t[cyan]{dump_path} dumped![/cyan]')
     
@@ -136,8 +180,11 @@ def get_adzuna_locs(cat_tag: str = 'it-jobs') -> dict:
 if __name__ == '__main__':
     ADZUNA_URL, ADZUNA_ID, ADZUNA_KEY, _, _ = configure()  
     
-    # Test get_adzuna_ads
-    get_adzuna_ads()
+    # Test get_daily_adzuna_ads
+    get_daily_adzuna_ads()
+    
+    # # Test get_adzuna_ads
+    # get_adzuna_ads()
     
     # # Test get_adzuna_cats
     # get_adzuna_cats()
