@@ -11,6 +11,7 @@ This includes:
 from datetime import datetime
 import functools
 import os
+import re
 import time
 
 from dotenv import load_dotenv
