@@ -17,6 +17,16 @@ from dotenv import load_dotenv
 import httpx
 
 
+BASE = 'https://www.adzuna.fr/details/'  # Used in forge_adzuna_url
+URL_MAPPING = {
+    '%3A': ':',
+    '%2F': '/',
+    '%3F': '?',
+    '%3D': '=',
+    '%26': '&'
+}  # Used in forge_hellowork_url
+
+
 def configure() -> None:
     """Set working environment"""
     load_dotenv()
@@ -38,7 +48,29 @@ def create_client() -> httpx.Client:
                 Chrome/116.0.0.0 Safari/537.36',
     })
     return c
-    
+
+
+def forge_adzuna_url(redirect_url: str) -> str:
+    """
+    Transforms a redirecting unscrapable url
+    to an unredirecting scrapable one
+    """
+    _, api, source, _ = redirect_url.split('&')
+    id_ = re.search(r'\d{10}\?', start_url).group()
+    new_url = BASE + id_ + '&'.join([api, source])
+
+    return new_url
+
+
+def forge_hellowork_url(url: str) -> str:
+    '''
+    Utility function to retrieve proper HelloWork url
+    from a scraped string gotten from an AJAX request.
+    '''
+    for k, v in URL_MAPPING.items():
+        url = url.replace(k, v)
+    return 'https' + url
+   
 
 def get_timestamp():
     """Help for file horodating"""
