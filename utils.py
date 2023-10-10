@@ -57,7 +57,7 @@ def forge_adzuna_url(redirect_url: str) -> str:
     to an unredirecting scrapable one
     """
     _, api, source, _ = redirect_url.split('&')
-    id_ = re.search(r'\d{10}\?', start_url).group()
+    id_ = re.search(r'\d{10}\?', redirect_url).group()
     new_url = BASE + id_ + '&'.join([api, source])
 
     return new_url
