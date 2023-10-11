@@ -11,7 +11,7 @@ There's also the `NOTES.md` file, for further information, especially about the 
 # **Install**
 You can opt for a use of basic tools to manage the project (i.e. `venv` and `pip`.)
 ## **Virtual Environment**
-It's of course best practise to create a virtual environment. This can be performer, inside a folder dedicated to the project, with the following command:
+It's of course best practise to create a virtual environment. This can be performed, inside a folder dedicated to the project, with the following command:
 
 `python -m venv .venv` (on some Linux distributions, it's possible you'll have to switch `python` to `python3`)
 
@@ -72,7 +72,7 @@ To extract dumps from different endpoints from Adzuna API.
 Same as previously, but for The Muse API.
 
 ### `utils.py`
-Sums up utility functions or constants used in the whole project, essentially to refactor the code and externalize specific purposes (like configuring the APIs and creating a client.)
+Sums up utility functions or constants used in the whole project, essentially to refactor the code and externalize specific purposes (like authenticating to the APIs and creating a client.)
 
 ### `adzuna_urls`
 Module devoted to forge/scraped URLs involved with Adzuna API, meaning:
