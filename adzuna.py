@@ -73,12 +73,12 @@ def get_adzuna_ads(cat_tag: str = 'it-jobs',
 
 
 @timer
-def get_daily_adzuna_ads(cat_tag: str = 'it-jobs') -> 'JSON':
+def get_daily_adzuna_ads(cat_tag: str = 'it-jobs'):
     """
     Get all job ads from Adzuna API, on a daily basis:
     - the daily rate being 250
     - the number of ads by page being 20
-    This corresponds, to the max, to 50 000 ads.    
+    This corresponds, to the max, to 5 000 ads.    
     """
     cli = create_client()
     adzuna_jobs = {}
