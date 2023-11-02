@@ -11,11 +11,22 @@ There's also the `NOTES.md` file, for further information, especially about the 
 # **Install**
 You can opt for a use of basic tools to manage the project (i.e. `venv` and `pip`.)
 ## **Virtual Environment**
-It's of course best practise to create a virtual environment. This can be performed, inside a folder dedicated to the project, with the following command:
+It's of course best practise to create a virtual environment. 
+
+### Venv
+This can be performed, inside a folder dedicated to the project, with the following command:
 
 `python -m venv .venv` (on some Linux distributions, it's possible you'll have to switch `python` to `python3`)
 
 Then, your virtual environment will be called `.venv`, and will be a hidden folder. As you obviously don't have to commit it, it's added in `.gitignore`.
+
+### Docker
+An alternative is to run it in a docker container. For this project, you may use the following image from dockerhub: `davidros/jm_project`. The image is a jupyter notebook environment for data science in which additional python packages were installed from the `requirements.txt`file. The image was built using the `Dockerfile` contained in this repository.
+
+To use the image in the terminal, go to current folder and run:
+
+`docker run --rm -p 8888:8888 -v ${PWD}:/home/jovyan davidros/jm_project`
+
 
 ## **Packages Installing**
 All needed packages are listed in `requirements.txt`. Therefore, all can be installed via:
