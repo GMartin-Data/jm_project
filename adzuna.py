@@ -76,9 +76,8 @@ def get_adzuna_ads(cat_tag: str = 'it-jobs',
 def get_daily_adzuna_ads(cat_tag: str = 'it-jobs'):
     """
     Get all job ads from Adzuna API, on a daily basis:
-    - the daily rate being 250
-    - the number of ads by page being 20
-    This corresponds, to the max, to 5 000 ads.    
+    After careful study, if you want to avoid systematical duplicates,
+    it corresponds to 100 pages, with 50 ads per page, hence 5 000 ads.    
     """
     cli = create_client()
     adzuna_jobs = {}
@@ -86,7 +85,7 @@ def get_daily_adzuna_ads(cat_tag: str = 'it-jobs'):
     errors = 0
     n_page = 1
     
-    for step in range(1, 11):
+    for step in range(1, 5):
         print(f"\t[white]Step {step}[/white]")
         for page in range(n_page, n_page + 25):
             # REQUESTING
@@ -98,7 +97,8 @@ def get_daily_adzuna_ads(cat_tag: str = 'it-jobs'):
                 errors += 1   
         # GOING OUT FROM STEP
         n_page += 25    # Updating number of first page
-        time.sleep(61)  # Going around minute rate limit
+        if step < 4:
+            time.sleep(61)  # Going around minute rate limit
     
     # SUM-UP
     print(f'\t[yellow]{n_page -1 - errors} pages succesfully processed.[/yellow]')
