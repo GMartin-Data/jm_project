@@ -84,13 +84,21 @@ def get_daily_adzuna_ads(cat_tag: str = 'it-jobs'):
     adzuna_jobs['results'] = []
     errors = 0
     n_page = 1
+    duplicates = []
     
     for step in range(1, 5):
         print(f"\t[white]Step {step}[/white]")
         for page in range(n_page, n_page + 25):
+
+            # Get list of distinct ids:
+            id_list = set([job['id'] for job in adzuna_jobs['results']])
+            
             # REQUESTING
             try:
-                adzuna_jobs['results'].extend(get_adzuna_ads_page(cli, page, cat_tag))
+                temp_adzuna_jobs = get_adzuna_ads_page(cli, page, cat_tag)
+                temp_duplicates = [job['id'] for job in temp_adzuna_jobs if job['id'] in id_list]
+                duplicates.append((len(temp_duplicates) / len(temp_adzuna_jobs)))
+                adzuna_jobs['results'].extend(temp_adzuna_jobs)
                 print(f'Page {page} PROCESSED')
             except BaseException as e:
                 print(f'[red]{type(e)}: Exception {e} occured![/red] on page {page}')
@@ -99,6 +107,10 @@ def get_daily_adzuna_ads(cat_tag: str = 'it-jobs'):
         n_page += 25    # Updating number of first page
         if step < 4:
             time.sleep(61)  # Going around minute rate limit
+
+        # If the average number of duplicates in the last 5 calls is over 80%, stop API calls
+        if np.mean(duplicates[-5:]) >= 0.8:
+            break
     
     # SUM-UP
     print(f'\t[yellow]{n_page -1 - errors} pages succesfully processed.[/yellow]')
