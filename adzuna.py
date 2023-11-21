@@ -9,6 +9,7 @@ Endpoints already implemented are those corresponding to
 
 import json
 import time
+import numpy as np
 
 import httpx
 from rich import print
@@ -103,14 +104,22 @@ def get_daily_adzuna_ads(cat_tag: str = 'it-jobs'):
             except BaseException as e:
                 print(f'[red]{type(e)}: Exception {e} occured![/red] on page {page}')
                 errors += 1   
+
+                    # If the average number of duplicates in the last 5 calls is over 80%, stop API calls
+            avg_duplicates = np.mean(duplicates[-5:])
+            if avg_duplicates >= 0.8:
+                print(f'Average number of duplicate ids in the last 5 calls was {avg_duplicates}. API calls will be stopped')
+                break
         # GOING OUT FROM STEP
         n_page += 25    # Updating number of first page
+
+        if avg_duplicates >= 0.8:
+            break
+            
         if step < 4:
             time.sleep(61)  # Going around minute rate limit
 
-        # If the average number of duplicates in the last 5 calls is over 80%, stop API calls
-        if np.mean(duplicates[-5:]) >= 0.8:
-            break
+
     
     # SUM-UP
     print(f'\t[yellow]{n_page -1 - errors} pages succesfully processed.[/yellow]')
