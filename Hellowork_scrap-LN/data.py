@@ -26,23 +26,7 @@ def create_db(data, db_name, db_col):
     else:
         Collection.insert_one(data)
 
-
-def create_dict(Id, hellowork_url):
-     #create data in dictionary format
-    salry = salary(hellowork_url)
-    dictionnaire = {"id": Id,  
-                    "hellowork_url": hellowork_url,
-                    "contract_type": contract_type_items(hellowork_url),
-                    "Experience": expe_level_items(hellowork_url),
-                    "Niveau_etude": study_level_items(hellowork_url), 
-                    "city": city(hellowork_url), 
-                    "dep": departement(hellowork_url),
-                    "salary_min": salry[0]  if salry is not None else None ,
-                    "salary_max": salry[1] if salry is not None else None
-                    }  
-    return  dictionnaire  
-
-        
+      
 def create_dump(dump_path, data):
     
     dump_file = open(dump_path, 'w', encoding='utf-8') 
