@@ -15,9 +15,9 @@ from rich import print
 
 from utils import create_client, forge_adzuna_url, forge_hellowork_url, get_timestamp
 
+# When called, the file will ask the use for a path to the json dump of job vacancies collected adzuna.py
+ads_api_path = input("Please provide the file path to the latest Adzuna jobs dump\n")
 
-# Loading dump - ⚠️ Update your path here for tests!
-ads_api_path = 'data/flow/new_ads_2023-11-23_4.json'
 with open(ads_api_path, 'r') as read_file:
      jobs = json.load(read_file)
 
@@ -64,6 +64,7 @@ for idx, job in enumerate(jobs[:50], 1):
     
 # Dumping results
 # ts = get_timestamp()
+ads_api_path_no_json = ads_api_path.split(".")[0]
 dump_path = f'{ads_api_path}_urls_1.json'
 with open(dump_path, 'w', encoding='utf-8') as dump_file:
     json.dump(adzuna_url_jobs, dump_file, indent=4, ensure_ascii=False) 

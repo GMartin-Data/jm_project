@@ -114,12 +114,14 @@ Same as previously, but for The Muse API.
 ### `utils.py`
 Sums up utility functions or constants used in the whole project, essentially to refactor the code and externalize specific purposes (like authenticating to the APIs and creating a client.)
 
-### `adzuna_urls`
+### `adzuna_urls.py`
 Module devoted to forge/scraped URLs involved with Adzuna API, meaning:
 - Adzuna's own pages
 - HelloWork pages
 
 corresponding to a job ad.
+
+This module must be provided with a path to a json dump of adzuna jobs collected using the API, following a prompt
 
 ### `data_models`
 This module contains logic devoted to **transform** extracted data.
