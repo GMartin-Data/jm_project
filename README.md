@@ -77,7 +77,47 @@ For the moment, this contains, as a JSON file, the list of French towns involved
 
 ## **Main Files**
 ### `adzuna.py`
-To extract dumps from different endpoints from Adzuna API.
+This module contains functions devoted to extract dumps from different endpoints from Adzuna API:
+#### 🛠️ `get_adzuna_ads`
+##### **OVERVIEW**
+
+This function allows to call the API in order to **find relevant information about ads**, the endpoint used being `GET jobs/{country}/search/{page}`
+It can be seen as a daily tool which will try to fetch as many ads as possible:
+- calling for **1 related page, containing 50 results**,
+- playing around the rate-limit of 25 calls per min,
+- **theorically** proceeding to **up to 250 calls** (daily rate limit),
+- **evaluating if the aggregated response contains too many duplicates** (checked on the **`id`** field, which a threshold ratio set inside the function via the **`THRESHOLD`** constant) and then **stopping the fetching whenever it occurs**.
+
+🔎 *Experiments lead to notice that duplicates tend to often appear after featching 100 pages, meaning you're still far from the theorical limit*.
+
+##### **PARAMETERS**
+
+Both being optional, they allow to narrow the scope of search
+- `what`: the keywords to search for (multiple items may be space separated)
+- `cat_tag`: the category tag, as returned by the `category` endpoint (read below)
+
+##### **RETURN VALUES**
+
+It returns a `tuple` containing:
+- A list of `AdzunaJob` objects, as defined in `data_models.py`
+- The number of remaining calls for the day.
+
+##### **EXAMPLES OF USE**
+> ❌ **TO DO**
+
+#### 🛠️ `get_adzuna_cats`
+
+This function requests the API to get a list of existing categories, the used endpoint being `GET jobs/{country}/categories`.
+> ❌ **DEVELOP**
+
+#### 🛠️ `get_adzuna_locs`
+
+This function requests the API to get salary data for locations inside an area, the used endpoint being `GET jobs/{country}/geodata`
+> ❌ **DEVELOP**
+
+#### 🛠️ `dump_adzuna_jobs`
+
+This function allows to dump ads transformed data from the API to be stored in JSON format in the `data` folder.
 
 ### `the_muse.py`
 Same as previously, but for The Muse API.

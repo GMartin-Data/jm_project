@@ -16,48 +16,55 @@ from rich import print
 from utils import create_client, forge_adzuna_url, forge_hellowork_url, get_timestamp
 
 
-# Loading dump
-with open('data/adzuna_jobs_2023-10-09-11:26:07.json', 'r') as read_file:
-     jobs = json.load(read_file)['results']
+# Loading dump - ⚠️ Update your path here for tests!
+ads_api_path = 'data/flow/new_ads_2023-11-23_4.json'
+with open(ads_api_path, 'r') as read_file:
+     jobs = json.load(read_file)
 
 adzuna_url_jobs = []
 
-for idx, job in enumerate(jobs[:10], 1):
+for idx, job in enumerate(jobs[:50], 1):
     job_id = job['id']
     red_url = job['redirect_url']
-    adzuna_url = forge_adzuna_url(red_url)
+    adzuna_url, is_redirected = forge_adzuna_url(red_url)
     
-    # Requesting red_url to get the real HelloWork page
-    cli = create_client()
-    resp = cli.get(red_url)
-    html = BeautifulSoup(resp.text, 'html.parser')
-    try:
-        ugly_url = (html
-                    .find_all('meta')
-                    [-1]
-                    .attrs['content']
-                    .split('https')
-                    [-1]
-                    )
-        hellowork_url = forge_hellowork_url(ugly_url)
-        print(f'Step {idx}: urls successfully generated')
-    except BaseException as e:
-        print(f'[red]Step {idx}: Exception {type(e)} for url {red_url}[/red]')
+    if is_redirected:
+        # Requesting red_url to get the Job Board's page,
+        # Which is named hellowork_url as this is often the case.
+        cli = create_client()
+        resp = cli.get(red_url)
+        html = BeautifulSoup(resp.text, 'html.parser')
+        try:
+            ugly_url = (html
+                        .find_all('meta')
+                        [-1]
+                        .attrs['content']
+                        .split('https')
+                        [-1]
+                        )
+            hellowork_url = forge_hellowork_url(ugly_url)
+            print(f'[green]Step {idx}: Redirection - Both urls successfully generated[/green]')
+            # Temporizing before next request
+            pause = 3 + 4 * np.random.rand()
+            print(f'\t[yellow]Gonna wait for {pause:.1f} seconds...')
+            time.sleep(pause)
+        except BaseException as e:
+            print(f'[red]Step {idx}: Exception {type(e)} for url {red_url}[/red]')
+            hellowork_url = None
+    else:
+        print(f'[#F3B664]Step {idx}: No redirection - Only adzuna_url generated[/#F3B664]')
         hellowork_url = None
+    
     adzuna_url_jobs.append({
         'id': job_id,
         'adzuna_url': adzuna_url,
         'hellowork_url': hellowork_url
     })
-        
-    # Temporizing next request
-    pause = 3 + 4 * np.random.rand()
-    print(f'\t[yellow]Gonna wait for {pause:.1f} seconds...')
-    time.sleep(pause)
+
     
 # Dumping results
-ts = get_timestamp()
-dump_path = f'data/adzuna_url_jobs_{ts}.json'
+# ts = get_timestamp()
+dump_path = f'{ads_api_path}_urls_1.json'
 with open(dump_path, 'w', encoding='utf-8') as dump_file:
     json.dump(adzuna_url_jobs, dump_file, indent=4, ensure_ascii=False) 
 print(f'\t[cyan]{dump_path} dumped![/cyan]')   

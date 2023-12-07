@@ -13,6 +13,7 @@ import functools
 import os
 import re
 import time
+from typing import Tuple
 
 from dotenv import load_dotenv
 import httpx
@@ -51,16 +52,28 @@ def create_client() -> httpx.Client:
     return c
 
 
-def forge_adzuna_url(redirect_url: str) -> str:
+def forge_adzuna_url(redirect_url: str) -> Tuple[str, bool]:
     """
-    Transforms a redirecting unscrapable url
-    to an unredirecting scrapable one
+    Params
+    ------
+        redirect_url: corresponding to this field in Adzuna API's ad response
+    Returns
+    -------
+    A tuple containing:
+        - The URL of the ads webpage, being either Adzuna's one or a Job Board's one
+        - A boolean indicating if there's a redirection or not.
     """
-    _, api, source, _ = redirect_url.split('&')
-    id_ = re.search(r'\d{10}\?', redirect_url).group()
-    new_url = BASE + id_ + '&'.join([api, source])
-
-    return new_url
+    try:
+        # In this case, there's a redirection to another Job Board
+        _, api, source, _ = redirect_url.split('&')
+        id_ = re.search(r'\d{10}\?', redirect_url).group()
+        new_url = BASE + id_ + '&'.join([api, source])
+        return new_url, True
+    
+    except ValueError:
+        # In this case, redirect_url is Adzuna's page
+        # The API's terminology is poor as there's in fact NO redirection
+        return redirect_url, False
 
 
 def forge_hellowork_url(url: str) -> str:
