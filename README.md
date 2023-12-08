@@ -27,6 +27,17 @@ To use the image in the terminal, go to current folder and run:
 
 `docker run --rm -p 8888:8888 -v ${PWD}:/home/jovyan davidros/jm_project`
 
+## Elasticsearch
+
+The initial job vacancy data is uploaded to an elasticsearch database. The elasticsearch database, as well as a kibana environment and a jupyter environment that can connect to elasticsearch (via a network), are created via the `docker-compose.yml` file.
+
+You can run it with the command `docker-compose up -d`. Then, you can access the jupyter environment in the browser at the following address: `http://localhost:8888`. Kibana can be accessed in the browser at the following address: `localhost:5601`
+
+There are currently 2 python scripts with relevant information for interacting with elasticsearch:
+
+* `es_utils.py`: this module contains functions to create an elasticsearch index, upload data to the index, and run a basic query on the index.
+* `upload_to-es.py`: this python script shows an example of how to upload web-scraped job vacancy data to an index.
+
 
 ## **Packages Installing**
 All needed packages are listed in `requirements.txt`. Therefore, all can be installed via:
