@@ -30,7 +30,12 @@ delete_and_create_index(elasticsearch_connexion = es,
                         index_name = "jm_test",
                        overwrite = True)
 
+
+
 # Upload the job vacancy data to the index
 upload_jobs_to_es(elasticsearch_connexion = es, 
                   index_name = "jm_test", 
                   jobs_list = jobs)
+
+
+

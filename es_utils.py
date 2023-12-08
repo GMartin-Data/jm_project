@@ -37,6 +37,12 @@ def delete_and_create_index(elasticsearch_connexion: Elasticsearch,
         else:
             print(f"User chose not to overwrite. Index {index_name} will not be deleted")
 
+    else:
+        print(f"Index {index_name} does not yet exist")
+        elasticsearch_connexion.indices.create(index = index_name)
+        n_docs_new = elasticsearch_connexion.count(index = index_name)["count"]
+        print(f"Index {index_name} was successfully created and contains {n_docs_new} documents")
+
 
 
 
