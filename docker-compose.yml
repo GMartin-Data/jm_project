@@ -1,0 +1,23 @@
+version: "3.0"
+
+services:
+  query_adzuna:
+    build:
+      context: query_adzuna/
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    container_name: query_adzuna
+    networks:
+      - jm_network
+    ports:
+      - 8888:8888
+    volumes:
+      - ${API_DUMP_PATH}:/api_dump/
+    environment:
+      adzuna_url: $adzuna_url
+      adzuna_id: $adzuna_id
+      adzuna_key: $adzuna_key
+
+networks:
+  jm_network:
+    driver: bridge
