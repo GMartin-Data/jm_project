@@ -7,13 +7,14 @@ This includes:
 - timer to benchmark code.
 """
 
-
+from urllib.parse import urlparse
 from datetime import datetime
 import functools
 import os
 import re
 import time
 from typing import Tuple
+from bs4 import BeautifulSoup
 
 from dotenv import load_dotenv
 import httpx
@@ -48,6 +49,7 @@ def create_client() -> httpx.Client:
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)\
             AppleWebKit/537.36 (KHTML, like Gecko)\
                 Chrome/116.0.0.0 Safari/537.36',
+                
     })
     return c
 
@@ -88,7 +90,7 @@ def forge_hellowork_url(url: str) -> str:
 
 def get_timestamp():
     """Help for file horodating"""
-    return datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
+    return datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
 
 
 def timer(func):
@@ -105,3 +107,15 @@ def timer(func):
     print(f"Finished {func.__name__!r} in {run_time: .4f} seconds.")
     return value
   return wrapper_timer
+
+
+class IsValidHwUrl:
+    """Validating hellowork url"""
+    def __init__(self, url):
+        parts = urlparse(url)
+        self.parts = parts
+    
+    def eq_netloc(self) -> bool:
+        return self.parts.netloc == 'www.hellowork.com' 
+
+

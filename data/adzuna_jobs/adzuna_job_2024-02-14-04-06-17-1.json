@@ -1,0 +1,52 @@
+[
+    {
+        "title": "Data Engineer / Big Data",
+        "created": "2024-01-26T04:36:44Z",
+        "salary_is_predicted": "0",
+        "salary_min": null,
+        "salary_max": null,
+        "latitude": 43.56961,
+        "longitude": 7.10688,
+        "location": "Antibes, Grasse",
+        "contract": null,
+        "area": [
+            "France",
+            "Provence-Alpes-Côte d'Azur",
+            "Alpes-Maritimes",
+            "Grasse",
+            "Antibes"
+        ],
+        "id": "4544977069",
+        "adref": "eyJhbGciOiJIUzI1NiJ9.eyJzIjoiX3JKYUp1WEs3aEdjRVRFRkk2N2dnQSIsImkiOiI0NTQ0OTc3MDY5In0.4FJctQ_i0gV5DPoaDKfoFmz7u48_RYusXWaRzrSYRu0",
+        "redirect_url": "https://www.adzuna.fr/land/ad/4544977069?se=_rJaJuXK7hGcETEFI67ggA&utm_medium=api&utm_source=616ca7d5&v=FCAAFFB9AC1A2267E6BE12976B1FF2DAB1E652B2",
+        "company": "ALTEN",
+        "description": "Alten is one of the 3 main consulting societies in France. It is present in more than 30 countries in the word. Sophia-Antipolis is the first and largest technopole in Europe, located in the South of France between Nice and Cannes, near Antibes. It’s also called the European Silicon Valley. Reporting to our consulting team, you will work in an IT environment as an IT Business Analyst, taking part in projects in an Agile environment. Job Description The mission consists in taking part toprojects…",
+        "label": "Emplois Informatique",
+        "tag": "it-jobs"
+    },
+    {
+        "title": "Gestionnaire Data H/F",
+        "created": "2024-02-01T14:03:00Z",
+        "salary_is_predicted": "0",
+        "salary_min": null,
+        "salary_max": null,
+        "latitude": 48.76236,
+        "longitude": 2.67176,
+        "location": "Roissy-en-Brie, Torcy",
+        "contract": "permanent",
+        "area": [
+            "France",
+            "Ile-de-France",
+            "Seine-et-Marne",
+            "Torcy",
+            "Roissy-en-Brie"
+        ],
+        "id": "4552463094",
+        "adref": "eyJhbGciOiJIUzI1NiJ9.eyJpIjoiNDU1MjQ2MzA5NCIsInMiOiJfckphSnVYSzdoR2NFVEVGSTY3Z2dBIn0.mkzJneIGrJFKrOp2fWex0SjxDK3u__quZ5DYRSMp8KU",
+        "redirect_url": "https://www.adzuna.fr/land/ad/4552463094?se=_rJaJuXK7hGcETEFI67ggA&utm_medium=api&utm_source=616ca7d5&v=F41C7B05E98C0809946D405EFE20E664502B8A6A",
+        "company": "Espace Aubade",
+        "description": "Votre mission : Intégrez l'équipe IT pour garantir la fiabilité, la qualité et la disponibilité des données métiers - Importer ces différentes données (produits, prix, etc.) dans l'ERP de l'entreprise - S'assurer de la qualité des données dans les outils de l'entre",
+        "label": "Emplois Informatique",
+        "tag": "it-jobs"
+    }
+]
